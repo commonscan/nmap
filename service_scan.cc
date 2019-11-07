@@ -1846,18 +1846,8 @@ bool dropdown = false;
    if (currentresp) free(currentresp);
    currentresp = NULL; currentresplen = 0;
  }
-
- if (probe_state == PROBESTATE_INITIAL) {
-   probe_state = PROBESTATE_NULLPROBE;
-   // This is the very first probe -- so we try to use the NULL probe
-   // but obviously NULL probe only works with TCP
-   if (proto == IPPROTO_TCP && AP->nullProbe)
-     return AP->nullProbe;
-
-   // No valid NULL probe -- we'll drop to the next state
- }
-
- if (probe_state == PROBESTATE_NULLPROBE) {
+   
+ if (probe_state == PROBESTATE_NULLPROBE || probe_state == PROBESTATE_INITIAL) { // disable null probe
    // There can only be one (or zero) NULL probe.  So now we go through the
    // list looking for matching probes
    probe_state = PROBESTATE_MATCHINGPROBES;
